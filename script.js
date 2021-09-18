@@ -8,6 +8,9 @@ var numbersAllowed = null;
 var lowerCaseAllowed = null;
 var upperCaseAllowed = null;
 
+// Declare arrays
+var charactersToPickFrom = [];
+
 /* Psuedo coding
   - Need to know how many characters the password will have
   - Need to know are special characters included
@@ -22,24 +25,6 @@ var upperCaseAllowed = null;
 
 */
 
-// Step 0: This function opens the first window to assist the user in generating a password
-function initiateGeneratePassword() {
-  // Window asking if the user wants to continue
-  var answer = window.confirm(
-    // This is the message the user receives
-    "You are about to generate a password. Continue?"
-  );
-  // If the user clicks 'OK' they are then presented with the next step.
-  // Pressing 'Cancel' stops the process
-  if (answer) {
-    console.log("Ok has been pressed");
-    askHowManyCharacters();
-  } else {
-    console.log("Process cancelled");
-    return;
-  }
-}
-
 // Step 1: Opens second window
 function askHowManyCharacters() {
   // Window asking the user how many characters they would like to use in their password
@@ -49,14 +34,11 @@ function askHowManyCharacters() {
   // Take answer and move to next step of cancel process
   if (answer) {
     console.log(answer);
-    askSpecialCharsAllowed();
+    return answer;
   } else {
     console.log("Process cancelled");
     return;
   }
-  // Set numberOfCharacters to what was entered
-  numberOfCharacters = answer;
-  console.log("Consoling what was entered " + numberOfCharacters);
 }
 
 // Step 2: Opens second window
@@ -67,13 +49,57 @@ function askSpecialCharsAllowed() {
   // Take answer and move to next step of cancel process
   if (answer) {
     console.log(answer);
-    askNumbersAllowed();
+    return answer;
   } else {
     console.log("Process cancelled");
     return;
   }
   // Set specialCharsAllowed to true or false
   specialCharsAllowed = answer;
+}
+
+//...
+function addSpecialCharacters() {
+  console.log("Add special characters");
+
+  // this takes the character array and adds special characters
+  // this is done one by one for 'special character' syntax issue reasons and is STILL MISSING CHARACTER '\'
+  charactersToPickFrom.push(
+    " ",
+    "!",
+    '"',
+    "#",
+    "$",
+    "%",
+    "&",
+    "'",
+    "(",
+    ")",
+    "*",
+    "+",
+    ",",
+    "-",
+    ".",
+    "/",
+    ":",
+    ";",
+    "<",
+    "=",
+    ">",
+    "?",
+    "@",
+    "[",
+    "`",
+    "|",
+    "~"
+  );
+  charactersToPickFrom.push("]");
+  charactersToPickFrom.push("_");
+  charactersToPickFrom.push("{");
+  charactersToPickFrom.push("}");
+  charactersToPickFrom.push("^");
+
+  console.log(charactersToPickFrom);
 }
 
 // Step 3: Opens second window
@@ -84,13 +110,24 @@ function askNumbersAllowed() {
   // Take answer and move to next step of cancel process
   if (answer) {
     console.log(answer);
-    askLowerCaseAllowed();
+    return answer;
   } else {
     console.log("Process cancelled");
     return;
   }
   // Set lowerCaseAllowed to true or false
   numbersAllowed = answer;
+}
+
+//...
+function addNumbersAllowed() {
+  // this takes the character array and adds numbers
+  console.log("Add number characters");
+  numbers = "0123456789".split("");
+  console.log(numbers);
+  console.log(charactersToPickFrom);
+  charactersToPickFrom = [...charactersToPickFrom, ...numbers];
+  console.log(charactersToPickFrom);
 }
 
 // Step 4: Opens second window
@@ -101,13 +138,24 @@ function askLowerCaseAllowed() {
   // Take answer and move to next step of cancel process
   if (answer) {
     console.log(answer);
-    askUpperCaseAllowed();
+    return answer;
   } else {
     console.log("Process cancelled");
     return;
   }
   // Set lowerCaseAllowed to true or false
   lowerCaseAllowed = answer;
+}
+
+//...
+function addLowerCaseAllowed() {
+  // this takes the character array and adds lower case letters
+  console.log("Add lower case characters");
+  lowerCaseCharacters = "abcdefghijklmnopqrstuvwxyz".split("");
+  console.log(lowerCaseCharacters);
+  console.log(charactersToPickFrom);
+  charactersToPickFrom = [...charactersToPickFrom, ...lowerCaseCharacters];
+  console.log(charactersToPickFrom);
 }
 
 // Step 5: Opens second window
@@ -118,7 +166,7 @@ function askUpperCaseAllowed() {
   // Take answer and move to next step of cancel process
   if (answer) {
     console.log(answer);
-    generatePassword();
+    return answer;
   } else {
     console.log("Process cancelled");
     return;
@@ -128,11 +176,59 @@ function askUpperCaseAllowed() {
 }
 
 //...
+function addUpperCaseAllowed() {
+  // this takes the character array and adds UPPER case letters
+  console.log("Add upper case characters");
+  upperCaseCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+  console.log(upperCaseCharacters);
+  console.log(charactersToPickFrom);
+  charactersToPickFrom = [...charactersToPickFrom, ...upperCaseCharacters];
+  console.log(charactersToPickFrom);
+}
+
+//...
 function generatePassword() {
-  console.log("Consoling what was entered " + numberOfCharacters);
-  console.log();
+  // Declare finalPassword variable
   var finalPassword = "";
-  // numberOfCharacters = askHowManyCharacters();
+  // Trigger first of 5 functions to the user. The action/answer is passed to a variable
+  numberOfCharacters = askHowManyCharacters();
+  specialCharsAllowed = askSpecialCharsAllowed();
+
+  if (specialCharsAllowed) {
+    addSpecialCharacters();
+  }
+
+  numbersAllowed = askNumbersAllowed();
+
+  if (numbersAllowed) {
+    addNumbersAllowed();
+  }
+
+  lowerCaseAllowed = askLowerCaseAllowed();
+
+  if (numbersAllowed) {
+    addLowerCaseAllowed();
+  }
+
+  upperCaseAllowed = askUpperCaseAllowed();
+
+  if (numbersAllowed) {
+    addUpperCaseAllowed();
+  }
+
+  console.log(
+    "Code has made it through the 5 steps. This was entered: " +
+      numberOfCharacters +
+      " " +
+      specialCharsAllowed +
+      " " +
+      numbersAllowed +
+      " " +
+      lowerCaseAllowed +
+      " " +
+      upperCaseAllowed
+  );
+
   //...
   // return finalPassword;
 }
@@ -146,4 +242,4 @@ function writePassword() {
 }
 
 // Add event listener to generate button
-generateBtn.addEventListener("click", initiateGeneratePassword);
+generateBtn.addEventListener("click", generatePassword);
