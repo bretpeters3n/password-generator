@@ -80,7 +80,7 @@ function addSpecialCharacters() {
     ",",
     "-",
     ".",
-    "/",
+    "//",
     ":",
     ";",
     "<",
@@ -188,53 +188,75 @@ function addUpperCaseAllowed() {
 
 //...
 function generatePassword() {
-  // Declare finalPassword variable
+  // Declare finalPassword as a variable
   var finalPassword = "";
+
   // Trigger first of 5 functions to the user. The action/answer is passed to a variable
   numberOfCharacters = askHowManyCharacters();
   specialCharsAllowed = askSpecialCharsAllowed();
 
+  //...
   if (specialCharsAllowed) {
     addSpecialCharacters();
   }
 
+  //...
   numbersAllowed = askNumbersAllowed();
 
   if (numbersAllowed) {
     addNumbersAllowed();
   }
 
+  //...
   lowerCaseAllowed = askLowerCaseAllowed();
 
+  //...
   if (numbersAllowed) {
     addLowerCaseAllowed();
   }
 
+  //...
   upperCaseAllowed = askUpperCaseAllowed();
 
+  //...
   if (numbersAllowed) {
     addUpperCaseAllowed();
   }
 
-  console.log(
-    "Code has made it through the 5 steps. This was entered: " +
-      numberOfCharacters +
-      " " +
-      specialCharsAllowed +
-      " " +
-      numbersAllowed +
-      " " +
-      lowerCaseAllowed +
-      " " +
-      upperCaseAllowed
-  );
+  // Declare array to store password in
+  var passwordCharacters = [];
 
   //...
-  // return finalPassword;
+  for (var i = 0; i < numberOfCharacters; i++) {
+    var result =
+      charactersToPickFrom[
+        Math.floor(Math.random() * charactersToPickFrom.length)
+      ];
+    console.log(result);
+    passwordCharacters.push(result);
+  }
+
+  // Take password in an array and convert it to a string (one after the other, with NO seperators)
+  console.log(passwordCharacters);
+  var passwordString = passwordCharacters.join("");
+  console.log(passwordString);
+
+  //...
+  return passwordString;
 }
+
+// function getRandomValue(arr) {
+//   var result = arr[Math.floor(Math.random() * arr.length)];
+//   return result;
+// }
+
+// Pull a character out of charactersToPic*-kFrom (ARRAY) and save that character.
+// Do this charactersToPickFrom.length (NUMBER)
+// COmbine these character one after the other (STRING) and send to page.
 
 // Write password to the #password input
 function writePassword() {
+  // console.log(passwordString);
   var password = generatePassword();
   var passwordText = document.querySelector("#password");
 
@@ -242,4 +264,5 @@ function writePassword() {
 }
 
 // Add event listener to generate button
-generateBtn.addEventListener("click", generatePassword);
+// generateBtn.addEventListener("click", generatePassword);
+generateBtn.addEventListener("click", writePassword);
